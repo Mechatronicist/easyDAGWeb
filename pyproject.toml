@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "EasyDAGWeb"
+version = "0.1.0"
+description = "A small EasyDAG extension with predefined websocket setup for FastAPI usage."
+readme = "README.md"
+requires-python = ">=3.9"
+
+authors = [
+    {name = "Mechatronicist"}
+]
+
+license = {file = "LICENSE"}
+keywords = ["dag", "multiprocessing", "workflow", "parallel", "tasks", "web", "api"]
+
+dependencies = [
+    "EasyDAG"
+]
+
+[project.urls]
+Homepage = "https://github.com/mechatronicist/EasyDAG"
+Repository = "https://github.com/mechatronicist/EasyDAG"
+Issues = "https://github.com/mechatronicist/EasyDAG/issues"
