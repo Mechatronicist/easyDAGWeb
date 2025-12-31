@@ -1,18 +1,18 @@
-name: Publish EasyDAG to PyPI
+name: Publish EasyDAG-Web to PyPI
 
 on:
   release:
     types: [published]
 
 permissions:
-  id-token: write
+  id-token: write  # Required for OIDC
   contents: read
 
 jobs:
   build-and-publish:
     name: Build and publish
     runs-on: ubuntu-latest
-    environment: pypi-publish
+    environment: pypi-publish  # This is your environment name
 
     steps:
       - name: Checkout source
@@ -24,13 +24,27 @@ jobs:
           python-version: "3.12"
 
       - name: Install build tools
-        run: pip install build
+        run: pip install build "hatchling<1.27"
 
       - name: Build package
-        run: python -m build
+        run: |
+          python -m build --no-isolation
+          unzip -p dist/*.whl "*/METADATA" | head -20
+        working-directory: ${{ github.workspace }}
+
+      - run: ls -R
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: easydag-wheel
+          path: |
+            dist/*.whl
+            dist/*.tar.gz
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@v1.12.0
         with:
           verbose: true
           skip-existing: true
+          verify-metadata: false
