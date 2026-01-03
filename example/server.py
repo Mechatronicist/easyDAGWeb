@@ -42,7 +42,6 @@ async def dag_ws(ws: WebSocket):
         await ws.send_json(event)
     bus.register_sender(sender)
     try:
-        t = None
         while True:
             msg = await ws.receive_json()
             if msg["type"] == "run":
